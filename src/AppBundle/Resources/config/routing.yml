@@ -1,0 +1,39 @@
+app_homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+
+app_404:
+    path:     /404
+    defaults: { _controller: AppBundle:Default:generate404 }
+
+app_artist_index:
+    path:     /artists
+    defaults: { _controller: AppBundle:Artist:index }
+
+app_artist_show_json:
+    path:     /artists/{id}.json
+    defaults: { _controller: AppBundle:Artist:showJson }
+
+app_artist_show:
+    path:     /artists/{id}
+    defaults: { _controller: AppBundle:Artist:show }
+
+app_track_index:
+    path:     /tracks
+    defaults: { _controller: AppBundle:Track:index }
+
+app_track_show_json:
+    path:     /tracks/{id}.json
+    defaults: { _controller: AppBundle:Track:showJson }
+
+app_track_show:
+    path:     /tracks/{id}
+    defaults: { _controller: AppBundle:Track:show }
+
+app_track_session_show:
+    path:     /tracks/session/show
+    defaults: { _controller: AppBundle:Track:sessionShow }
+
+app_track_session:
+    path:     /tracks/session/{id}
+    defaults: { _controller: AppBundle:Track:session }
