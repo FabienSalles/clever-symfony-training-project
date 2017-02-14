@@ -49,6 +49,11 @@ class Artist
      */
     private $genre;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Track", mappedBy="artist")
+     */
+    private $tracks;
+
 
     /**
      * Get id
@@ -155,5 +160,45 @@ class Artist
     {
         return $this->genre;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tracks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add track
+     *
+     * @param \AppBundle\Entity\Track $track
+     *
+     * @return Artist
+     */
+    public function addTrack(\AppBundle\Entity\Track $track)
+    {
+        $this->tracks[] = $track;
+
+        return $this;
+    }
+
+    /**
+     * Remove track
+     *
+     * @param \AppBundle\Entity\Track $track
+     */
+    public function removeTrack(\AppBundle\Entity\Track $track)
+    {
+        $this->tracks->removeElement($track);
+    }
+
+    /**
+     * Get tracks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTracks()
+    {
+        return $this->tracks;
+    }
+}
