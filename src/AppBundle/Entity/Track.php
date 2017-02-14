@@ -28,6 +28,11 @@ class Track
      */
     private $title;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Artist", inversedBy="tracks")
+     */
+    private $artist;
+
 
     /**
      * Get id
@@ -62,5 +67,28 @@ class Track
     {
         return $this->title;
     }
-}
 
+    /**
+     * Set artist
+     *
+     * @param \AppBundle\Entity\Artist $artist
+     *
+     * @return Track
+     */
+    public function setArtist(\AppBundle\Entity\Artist $artist = null)
+    {
+        $this->artist = $artist;
+
+        return $this;
+    }
+
+    /**
+     * Get artist
+     *
+     * @return \AppBundle\Entity\Artist
+     */
+    public function getArtist()
+    {
+        return $this->artist;
+    }
+}
