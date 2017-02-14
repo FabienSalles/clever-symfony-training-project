@@ -8,47 +8,49 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Repository\InMemory\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class TrackController extends Controller
 {
-    public static $tracks = [
-        [
-            'id'     => 2,
-            'title'  => 'Eversort',
-            'artist' => 5,
-        ],
-        [
-            'id'     => 123,
-            'title'  => 'Everlong',
-            'artist' => 1,
-        ],
-    ];
-
     public function indexAction()
     {
-        return $this->render('AppBundle:Track:index.html.twig', ['tracks' => $this->findAll()]);
+        return $this->render('AppBundle:Track:index.html.twig', ['tracks' => $this->get('app.repository.in_memory.track')->findAll()]);
     }
 
     public function showAction(Request $request, $id)
     {
-        $track = $this->find($id);
+        try {
+            $track = $this->get('app.repository.in_memory.artist')->find($id);
+        } catch (NotFoundException $e) {
+            throw $this->createNotFoundException();
+        }
 
         return $this->render('AppBundle:Track:show.html.twig', ['track' => $track]);
     }
 
     public function showJsonAction($id)
     {
-        $track = $this->find($id);
+        try {
+            $track = $this->get('app.repository.in_memory.artist')->find($id);
+        } catch (NotFoundException $e) {
+            throw $this->createNotFoundException();
+        }
 
         return new JsonResponse($track);
     }
 
     public function sessionAction($id, Request $request)
     {
-        $request->getSession()->set('track', $this->find($id));
+        try {
+            $track = $this->get('app.repository.in_memory.artist')->find($id);
+        } catch (NotFoundException $e) {
+            throw $this->createNotFoundException();
+        }
+
+        $request->getSession()->set('track', $track);
 
         return $this->redirectToRoute('app_track_session_show');
     }
@@ -56,21 +58,5 @@ class TrackController extends Controller
     public function sessionShowAction(Request $request)
     {
         return $this->render('AppBundle:Track:show.html.twig', ['track' => $request->getSession()->get('track')]);
-    }
-
-    private function find($id)
-    {
-        $key  = array_search($id, array_column(self::$tracks, 'id'));
-
-        if (false === $key) {
-            throw $this->createNotFoundException();
-        }
-
-        return self::$tracks[$key];
-    }
-
-    private function findAll()
-    {
-        return self::$tracks;
     }
 }
