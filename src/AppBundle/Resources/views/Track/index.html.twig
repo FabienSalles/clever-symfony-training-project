@@ -1,1 +1,25 @@
-{{ dump(tracks) }}
+{% extends '::base.html.twig' %}
+
+{% block title %}My tracks{% endblock %}
+
+{% block body %}
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Artist Id</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for track in tracks %}
+            <tr>
+                <td>{{ track.id }}</td>
+                <td>{{ track.title }}</td>
+                <td><a href="{{ path('app_artist_show', {id : track.artist}) }}" title="Link to {{ track.artist }}">{{ track.artist }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
