@@ -8,9 +8,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Artist;
+use AppBundle\Form\Type\ArtistType;
 use AppBundle\Repository\InMemory\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class ArtistController extends Controller
 {
@@ -40,5 +43,22 @@ class ArtistController extends Controller
         }
 
         return new JsonResponse($track);
+    }
+
+    public function newAction(Request $request)
+    {
+        $artist = new Artist();
+        $form = $this->createForm(ArtistType::class, $artist);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->get('doctrine.orm.entity_manager');
+            $entityManager->persist($artist);
+            $entityManager->flush();
+
+            return $this->redirect($this->generateUrl('app_artist_index'));
+        }
+
+        return $this->render('AppBundle:Artist:new.html.twig', ['form' => $form->createView()]);
     }
 }
