@@ -10,6 +10,10 @@ app_artist_index:
     path:     /artists
     defaults: { _controller: AppBundle:Artist:index }
 
+app_artist_new:
+    path:     /artists/new
+    defaults: { _controller: AppBundle:Artist:new }
+
 app_artist_show_json:
     path:     /artists/{id}.json
     defaults: { _controller: AppBundle:Artist:showJson }

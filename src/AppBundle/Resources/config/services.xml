@@ -15,5 +15,9 @@
 
         <service id="app.repository.in_memory.track" class="%app.repository.in_memory.track.class%">
         </service>
+
+        <service id="app.form_type.artist" class="AppBundle\Form\Type\ArtistType">
+            <tag name="form.type" />
+        </service>
     </services>
 </container>
