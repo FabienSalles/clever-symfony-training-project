@@ -33,6 +33,19 @@ class Track
      */
     private $artist;
 
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Playlist", inversedBy="tracks")
+     */
+    private $playlists;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->playlists = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -90,5 +103,10 @@ class Track
     public function getArtist()
     {
         return $this->artist;
+    }
+
+    public function addPlaylist(Playlist $playlist)
+    {
+        $this->playlists->add($playlist);
     }
 }
