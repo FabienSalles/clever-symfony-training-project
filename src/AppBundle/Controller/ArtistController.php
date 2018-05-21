@@ -25,13 +25,13 @@ class ArtistController extends Controller
     public function showAction($id)
     {
         try {
-            $track = $this->get('app.repository.in_memory.artist')->find($id);
+            $artist = $this->get('app.repository.in_memory.artist')->find($id);
         } catch (NotFoundException $e) {
             throw $this->createNotFoundException();
         }
 
 
-        return $this->render('AppBundle:Artist:show.html.twig', ['artist' => $track]);
+        return $this->render('AppBundle:Artist:show.html.twig', ['artist' => $artist]);
     }
 
     public function showJsonAction($id)
